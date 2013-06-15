@@ -1,8 +1,22 @@
 case node["platform"]
-when "CentOS","Fedora"
-  packages = ["help2man", "python-sphinx", "python-docutils", "python-pigments", "texlive-latex", "texlive-latex-fonts",
-              "texinfo", "gnupg", "autoconf", "automake", "autoconf-archive", "libtool", "perl-Test-Harness",
-              "erlang-etap", "erlang-erts", "erlang-os_mon", "erlang-eunit", "libicu-devel", "js-devel", "curl-devel",
+when "centos","fedora"
+
+  rpm_forge = "rpmforge-release-0.5.2-2.el6.rf.#{node["kernel"]["machine"]}.rpm"
+
+  remote_file "/tmp/#{rpm_forge}" do
+    source "http://packages.sw.be/rpmforge-release/#{rpm_forge}"
+  end
+
+  rpm_package "/tmp/#{rpm_forge}"
+
+  cookbook_file "/etc/yum.repos.d/erlang.repo" do
+    source "centos-erlang.repo"
+  end
+
+  packages = ["help2man", "python-sphinx", "python-docutils", "python-pygments", "texlive-latex", "texlive-texmf-fonts",
+              "texinfo", "gnupg", "autoconf", "automake", "libtool", "perl-Test-Harness",
+              "esl-erlang", #"erlang-etap", "erlang-erts", "erlang-os_mon", "erlang-eunit",
+              "libicu-devel", "js-devel", "curl-devel",
               "git"]
   package_provider = Chef::Provider::Package::Yum
 else
