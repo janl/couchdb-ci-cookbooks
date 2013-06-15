@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
 
+  config.vm.provision :shell, :path => "./fix-me.sh"
   config.vm.provision :chef_solo do |chef|
     chef.json = {
       :mysql => {
