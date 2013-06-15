@@ -3,5 +3,5 @@
 ```
 gem install chef
 gem install berkshell
-berks install --path cookbooks
+berks install --path vendor/cookbooks
 ```
