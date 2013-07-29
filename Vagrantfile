@@ -73,15 +73,22 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :path => "./fix-me.sh"
   config.vm.provision :chef_solo do |chef|
     chef.json = {
-      :mysql => {
-        :server_root_password => 'rootpass',
-        :server_debian_password => 'debpass',
-        :server_repl_password => 'replpass'
+      :jenkins => {
+        :node => {
+          :launcher => 'jnlp',
+          :name => 'till-test-node'
+        },
+        :server => {
+          :port => '8888',
+          :host => 'ci.couchdb.org'
+        }
       }
     }
 
     chef.run_list = [
-        "recipe[couchdb-ci-cookbooks::default]"
+        "recipe[couchdb-ci]",
+        "recipe[java]",
+        "recipe[couchdb-ci::jenkins-slave]"
     ]
   end
 end
