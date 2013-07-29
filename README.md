@@ -1,7 +1,7 @@
 # Cookbooks for ci
 
 ```
-gem install berkshell
+gem install berkshelf
 berks install --path vendor/cookbooks
 ```
 
